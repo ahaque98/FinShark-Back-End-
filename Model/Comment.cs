@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace api.Model;
 
-public class Comment { 
+public class Comment {
+    [Key]
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;

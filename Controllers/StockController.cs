@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -16,21 +16,23 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var stocks = _context.Stocks.ToList();
+            var stocks = _context.Stocks.ToList()
+             .Select(s => s.ToStockDto());
+
             return Ok(stocks);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById([FromRoute] int id)
         {
-            var stocks = _context.Stocks.Find(id);
+            var stock = _context.Stocks.Find(id);
 
-            if (stocks is null)
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            return Ok(stocks);
+            return Ok(stock.ToStockDto());
         }
 
     }
